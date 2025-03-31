@@ -1,15 +1,24 @@
 package com.neko.controller;
 
-import org.springframework.scheduling.config.Task;
+import com.neko.dto.TaskDto;
+import com.neko.entity.Task;
+import com.neko.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import static com.neko.constants.ApiConstants.*;
+
 @RestController
-@RequestMapping("/taskManagement/api/v1/task")
+@RequestMapping(TASK_MANAGEMENT + API + V1 + TASK)
 public class TaskController {
 
-    @PostMapping
-    public String createTask(@RequestBody Task task) {
-        return "HelloCreate";
+    @Autowired
+    TaskService taskService;
+
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Task createTask(@RequestBody TaskDto task) {
+        return taskService.create(task);
     }
 
     @GetMapping("/{id}")

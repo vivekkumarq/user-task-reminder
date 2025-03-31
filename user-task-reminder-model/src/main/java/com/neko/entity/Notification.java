@@ -13,6 +13,6 @@ public class Notification {
     private UUID userId;
     private UUID taskId;
     private String message;
-    private boolean seen;
+    private Boolean seen;
     private LocalDateTime createdDate;
 }

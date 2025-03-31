@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>user-task-reminder-model</artifactId>
-    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

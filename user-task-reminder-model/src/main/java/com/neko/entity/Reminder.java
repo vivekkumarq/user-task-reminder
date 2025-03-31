@@ -1,5 +1,6 @@
 package com.neko.entity;
 
+import com.neko.enums.Channel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +10,11 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @Data
-public class Remainder {
+public class Reminder {
     private UUID id;
     private UUID taskId;
-    private String cronExpression;
+    private String cron;
     private String message;
     private LocalDateTime dueDate;
-    private List<String> channel;
+    private Channel channel;
 }
