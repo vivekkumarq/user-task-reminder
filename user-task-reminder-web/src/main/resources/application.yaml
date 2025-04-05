@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: user-task-reminder
+  datasource:
+#    url: jdbc:postgresql://localhost:5432/user-task-reminder
+    url: jdbc:postgresql://pg-f7dc6db-user-task-reminder.h.aivencloud.com:24130/defaultdb?ssl=require&user=avnadmin&password=AVNS_yYWzwma_6LikP6uqih2
+    username: avnadmin
+    password: AVNS_yYWzwma_6LikP6uqih2
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+logging:
+  level:
+    root: INFO
