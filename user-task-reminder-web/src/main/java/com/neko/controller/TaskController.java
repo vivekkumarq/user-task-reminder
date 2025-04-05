@@ -21,12 +21,12 @@ public class TaskController {
         return taskService.create(task);
     }
 
-    @GetMapping("/{id}")
-    public String getTask(@PathVariable("id") String id) {
+    @GetMapping(SLASH+ID_VAR)
+    public String getTask(@PathVariable(ID) String id) {
         return "Hello" + id;
     }
 
-    @GetMapping("/")
+    @GetMapping(SLASH)
     public String listTask() {
         return "Hello";
     }
