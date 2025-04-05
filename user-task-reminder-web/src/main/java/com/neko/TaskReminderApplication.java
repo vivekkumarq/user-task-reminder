@@ -12,6 +12,6 @@ public class TaskReminderApplication {
         return new ModelMapper();
     }
     public static void main(String[] args) {
-        SpringApplication.run(TaskReminderApplication.class);
+        SpringApplication.run(TaskReminderApplication.class, args);
     }
 }
