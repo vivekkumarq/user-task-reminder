@@ -22,24 +22,24 @@ public class TaskController {
     TaskService taskService;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Task> create(@RequestBody TaskDto task) {
+    public ResponseEntity<TaskDto> create(@RequestBody TaskDto task) {
         return new ResponseEntity<>(taskService.create(task), HttpStatus.CREATED);
     }
 
     @PatchMapping(path = SLASH+ID_VAR,produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Task> update(@PathVariable(ID) UUID id,@RequestBody TaskDto task) {
+    public ResponseEntity<TaskDto> update(@PathVariable(ID) UUID id,@RequestBody TaskDto task) {
         return new ResponseEntity<>(taskService.update(id,task), HttpStatus.CREATED);
     }
 
     @GetMapping(SLASH+ID_VAR)
-    public ResponseEntity<Task> get(@PathVariable(ID) UUID id) {
-        Task task = taskService.get(id);
+    public ResponseEntity<TaskDto> get(@PathVariable(ID) UUID id) {
+        TaskDto task = taskService.get(id);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<Task>> list() {
-        List<Task> tasks = taskService.list();
+    public ResponseEntity<List<TaskDto>> list() {
+        List<TaskDto> tasks = taskService.list();
         return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 

@@ -1,6 +1,5 @@
 package com.neko.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.neko.enums.Priority;
 import com.neko.enums.Status;
@@ -17,11 +16,13 @@ import java.util.UUID;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TaskDto {
+    private UUID id;
     private String name;
     private String description;
     //TODO: user info needs to be removed in future
-    private String createdBy;
+    private UserDto createdBy;
     private String modifiedBy;
+    private LocalDateTime createdDate;
     private LocalDateTime dueDate;
     private Boolean recurring;
     private UUID remainderId;

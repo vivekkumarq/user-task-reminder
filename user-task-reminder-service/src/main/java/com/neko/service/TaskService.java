@@ -1,20 +1,19 @@
 package com.neko.service;
 
 import com.neko.dto.TaskDto;
-import com.neko.entity.Task;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface TaskService {
 
-    Task create(TaskDto task);
+    TaskDto create(TaskDto task);
 
-    Task get(UUID id);
+    TaskDto get(UUID id);
 
-    List<Task> list();
+    List<TaskDto> list();
 
-    Task update(UUID id, TaskDto task);
+    TaskDto update(UUID id, TaskDto task);
 
     void delete(UUID id);
 }
