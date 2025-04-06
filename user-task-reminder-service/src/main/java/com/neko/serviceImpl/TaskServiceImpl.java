@@ -8,9 +8,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -22,26 +24,28 @@ public class TaskServiceImpl implements TaskService {
     private TaskRepository taskRepository;
 
     @Override
-    public Task create(TaskDto taskDto) {
-        Task task = new Task();
-        task = mapper.map(taskDto, Task.class);
+    public TaskDto create(TaskDto taskDto) {
+        Task task = mapper.map(taskDto, Task.class);
         task.setId(UUID.randomUUID());
-        return taskRepository.save(task);
+        task.setCreatedDate(LocalDateTime.now());
+        return mapper.map(taskRepository.save(task), TaskDto.class);
     }
 
     @Override
-    public Task get(UUID id) {
+    public TaskDto get(UUID id) {
         Task task = taskRepository.findById(id).get();
-        return task;
+        return mapper.map(task, TaskDto.class);
     }
 
     @Override
-    public List<Task> list() {
-        return taskRepository.findAll();
+    public List<TaskDto> list() {
+        return taskRepository.findAll().stream()
+                .map(task -> mapper.map(task, TaskDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Task update(UUID id, TaskDto task) {
+    public TaskDto update(UUID id, TaskDto task) {
         Task existingTask = taskRepository.findById(id).get();
 
         for(Field field: task.getClass().getDeclaredFields()) {
@@ -57,7 +61,7 @@ public class TaskServiceImpl implements TaskService {
                 throw new RuntimeException(e);
             }
         }
-        return taskRepository.save(existingTask);
+        return mapper.map(taskRepository.save(existingTask), TaskDto.class);
     }
 
     @Override

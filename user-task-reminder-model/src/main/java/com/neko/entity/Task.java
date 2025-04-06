@@ -19,7 +19,9 @@ public class Task {
     private String name;
     private String description;
     private LocalDateTime createdDate;
-    private String createdBy;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private User createdBy;
     private String modifiedBy;
     private LocalDateTime dueDate;
     private Boolean recurring;
