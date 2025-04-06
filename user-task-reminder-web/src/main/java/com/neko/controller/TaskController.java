@@ -26,6 +26,11 @@ public class TaskController {
         return new ResponseEntity<>(taskService.create(task), HttpStatus.CREATED);
     }
 
+    @PatchMapping(path = SLASH+ID_VAR,produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Task> update(@PathVariable(ID) UUID id,@RequestBody TaskDto task) {
+        return new ResponseEntity<>(taskService.update(id,task), HttpStatus.CREATED);
+    }
+
     @GetMapping(SLASH+ID_VAR)
     public ResponseEntity<Task> get(@PathVariable(ID) UUID id) {
         Task task = taskService.get(id);

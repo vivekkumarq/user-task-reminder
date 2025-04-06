@@ -7,10 +7,10 @@ import com.neko.service.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -41,9 +41,23 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task update(UUID id) {
-        //TODO: PATCH for task controller
-        return null;
+    public Task update(UUID id, TaskDto task) {
+        Task existingTask = taskRepository.findById(id).get();
+
+        for(Field field: task.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(task);
+                if(Objects.nonNull(value)) {
+                    Field entityField = existingTask.getClass().getDeclaredField(field.getName());
+                    entityField.setAccessible(true);
+                    entityField.set(existingTask, value);
+                }
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return taskRepository.save(existingTask);
     }
 
     @Override
