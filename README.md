@@ -28,6 +28,7 @@ Quarkus, Angular, GraphQL, WebSocket, RabbitMQ, Kafka, Quartz Scheduler, and mor
 - PostgreSQL (database)
 - JPA/Hibernate (ORM)
 - WebSocket (real-time updates)
+- Integrated with Swagger UI for Listing API's { http://localhost:8080/swagger-ui/index.html }
 
 ### Frontend
 - Angular
