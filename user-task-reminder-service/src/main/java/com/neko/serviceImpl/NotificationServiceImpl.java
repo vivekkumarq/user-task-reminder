@@ -32,7 +32,6 @@ public class NotificationServiceImpl implements NotificationService {
         dto.setCreatedDate(LocalDateTime.now());
         Notification notification = mapper.map(dto, Notification.class);
         Notification saved = notificationRepository.save(notification);
-        System.out.println(saved);
         return mapper.map(saved, NotificationDto.class);
     }
 

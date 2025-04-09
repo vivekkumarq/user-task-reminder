@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
         user.setId(UUID.randomUUID());
         user.setCreatedDate(LocalDateTime.now());
         User savedUser = userRepository.save(mapper.map(user,User.class));
-        System.out.println(savedUser);
         return mapper.map(savedUser, UserDto.class);
     }
 
