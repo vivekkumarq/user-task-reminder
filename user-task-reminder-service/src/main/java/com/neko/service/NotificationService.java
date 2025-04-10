@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface NotificationService {
-    NotificationDto createNotification(NotificationDto notificationDto);
+    NotificationDto create(NotificationDto notificationDto);
 
-    List<NotificationDto> getAllNotifications();
+    List<NotificationDto> get();
 
-    NotificationDto getNotificationById(UUID id);
+    NotificationDto getById(UUID id);
 
-    NotificationDto updateNotification(UUID id, NotificationDto notificationDto);
+    NotificationDto update(UUID id, NotificationDto notificationDto);
 
-    void deleteNotification(UUID id);
+    void delete(UUID id);
 }

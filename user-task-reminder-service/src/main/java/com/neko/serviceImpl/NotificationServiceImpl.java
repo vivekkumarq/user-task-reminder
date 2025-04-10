@@ -27,7 +27,7 @@ public class NotificationServiceImpl implements NotificationService {
     private ModelMapper mapper;
 
     @Override
-    public NotificationDto createNotification(NotificationDto dto) {
+    public NotificationDto create(NotificationDto dto) {
         dto.setId(UUID.randomUUID());
         dto.setCreatedDate(LocalDateTime.now());
         Notification notification = mapper.map(dto, Notification.class);
@@ -36,21 +36,21 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public NotificationDto getNotificationById(UUID id) {
+    public NotificationDto getById(UUID id) {
         Notification notification = notificationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Notification not found with id: " + id));
         return mapper.map(notification, NotificationDto.class);
     }
 
     @Override
-    public List<NotificationDto> getAllNotifications() {
+    public List<NotificationDto> get() {
         return notificationRepository.findAll().stream()
                 .map(notification -> mapper.map(notification, NotificationDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public NotificationDto updateNotification(UUID id, NotificationDto dto) {
+    public NotificationDto update(UUID id, NotificationDto dto) {
         Notification existingNotification = notificationRepository.findById(id).orElseThrow();
 
         for (Field field : dto.getClass().getDeclaredFields()) {
@@ -72,7 +72,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void deleteNotification(UUID id) {
+    public void delete(UUID id) {
         Notification notification = notificationRepository.findById(id).orElseThrow();
         notificationRepository.delete(notification);
     }
