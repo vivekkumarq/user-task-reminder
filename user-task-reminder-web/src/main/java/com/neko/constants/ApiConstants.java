@@ -10,4 +10,5 @@ public interface ApiConstants {
     public static final String SLASH = "/";
     public static final String ID_VAR = "{id}";
     public static final String ID = "id";
+    public static final String NOTIFICATION = "/notification" ;
 }

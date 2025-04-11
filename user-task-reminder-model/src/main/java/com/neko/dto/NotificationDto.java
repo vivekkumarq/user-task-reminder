@@ -1,7 +1,5 @@
-package com.neko.entity;
+package com.neko.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-public class Notification {
-    @Id
+public class NotificationDto {
     private UUID id;
     private UUID userId;
     private UUID taskId;
@@ -22,3 +18,4 @@ public class Notification {
     private Boolean seen;
     private LocalDateTime createdDate;
 }
+
