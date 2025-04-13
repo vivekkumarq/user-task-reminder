@@ -1,9 +1,6 @@
 package com.neko.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,8 +21,14 @@ public class User {
     private String lastName;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
+    @ElementCollection
     private List<String> roles;
 
-    @OneToMany(mappedBy = "createdBy")
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
     private List<Task> tasks;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) //FYI orphanRemoval is use for ,If we  remove an item from the parent’s collection,
+                                                                                    // and the child has no other reference,
+                                                                                    // it will be automatically deleted from the database.
+    private List<Notification> notifications;
 }

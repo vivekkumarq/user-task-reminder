@@ -16,8 +16,12 @@ import java.util.UUID;
 public class Notification {
     @Id
     private UUID id;
-    private UUID userId;
-    private UUID taskId;
+    @ManyToOne
+    @JoinColumn(name = "user_id") // ForeignKey column for user
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "task_id") // FK column for task
+    private Task task;
     private String message;
     private Boolean seen;
     private LocalDateTime createdDate;
