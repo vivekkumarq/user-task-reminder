@@ -16,6 +16,7 @@ import java.util.UUID;
 public class Task {
     @Id
     private UUID id;
+    private String name;
     private String description;
     private LocalDateTime createdDate;
     @ManyToOne
