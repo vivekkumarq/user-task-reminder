@@ -26,10 +26,20 @@ public class Task {
     private LocalDateTime dueDate;
     private Boolean recurring;
     private UUID remainderId;
+
+    @Enumerated(EnumType.ORDINAL)
     private Priority priority;
+
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
+
+    @ElementCollection
     private List<String> labels;
     //TODO: remove transient and enable it to persist when implementing upload logic
     @Transient
     private List<Object> attachments;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications;
+
 }
