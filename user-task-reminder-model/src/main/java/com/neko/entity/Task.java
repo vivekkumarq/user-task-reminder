@@ -27,13 +27,12 @@ public class Task {
     private Boolean recurring;
     private UUID remainderId;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ElementCollection
     private List<String> labels;
     //TODO: remove transient and enable it to persist when implementing upload logic
     @Transient

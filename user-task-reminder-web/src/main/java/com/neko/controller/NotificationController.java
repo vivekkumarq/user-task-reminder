@@ -20,13 +20,13 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @PostMapping
-    public ResponseEntity<NotificationDto> create(@RequestBody NotificationDto dto) {
-        return new ResponseEntity<>(notificationService.create(dto), HttpStatus.CREATED);
+    public ResponseEntity<NotificationDto> create(@RequestBody NotificationDto notification) {
+        return new ResponseEntity<>(notificationService.create(notification), HttpStatus.CREATED);
     }
 
     @PatchMapping(path = SLASH + ID_VAR)
-    public ResponseEntity<NotificationDto> update(@PathVariable(ID) UUID id, @RequestBody NotificationDto dto) {
-        return new ResponseEntity<>(notificationService.update(id, dto), HttpStatus.OK);
+    public ResponseEntity<NotificationDto> update(@PathVariable(ID) UUID id, @RequestBody NotificationDto notification) {
+        return new ResponseEntity<>(notificationService.update(id, notification), HttpStatus.OK);
     }
 
     @GetMapping(path = SLASH + ID_VAR)

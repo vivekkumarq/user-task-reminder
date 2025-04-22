@@ -2,6 +2,8 @@ package com.neko.serviceImpl;
 
 import com.neko.dto.TaskDto;
 import com.neko.entity.Task;
+import com.neko.exceptions.ErrorCode.ErrorCode;
+import com.neko.exceptions.UserTaskReminderException;
 import com.neko.repositories.TaskRepository;
 import com.neko.service.TaskService;
 import org.modelmapper.ModelMapper;
@@ -33,7 +35,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto get(UUID id) {
-        Task task = taskRepository.findById(id).get();
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new UserTaskReminderException(ErrorCode.TASK_NOT_FOUND, id));
         return mapper.map(task, TaskDto.class);
     }
 
@@ -46,7 +49,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto update(UUID id, TaskDto task) {
-        Task existingTask = taskRepository.findById(id).get();
+        Task existingTask = taskRepository.findById(id).
+                orElseThrow(() -> new UserTaskReminderException(ErrorCode.TASK_NOT_FOUND, id));
 
         for(Field field: task.getClass().getDeclaredFields()) {
             field.setAccessible(true);
@@ -66,7 +70,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void delete(UUID id) {
-        Task task = taskRepository.findById(id).get();
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new UserTaskReminderException(ErrorCode.TASK_NOT_FOUND, id));
         taskRepository.delete(task);
     }
 }
