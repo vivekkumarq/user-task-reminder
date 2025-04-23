@@ -2,13 +2,13 @@ package com.neko.serviceImpl;
 
 import com.neko.dto.NotificationDto;
 import com.neko.entity.Notification;
+import com.neko.exceptions.ErrorCode.ErrorCode;
+import com.neko.exceptions.UserTaskReminderException;
 import com.neko.repositories.NotificationRepository;
 import com.neko.service.NotificationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
@@ -27,18 +27,17 @@ public class NotificationServiceImpl implements NotificationService {
     private ModelMapper mapper;
 
     @Override
-    public NotificationDto create(NotificationDto dto) {
-        dto.setId(UUID.randomUUID());
-        dto.setCreatedDate(LocalDateTime.now());
-        Notification notification = mapper.map(dto, Notification.class);
-        Notification saved = notificationRepository.save(notification);
+    public NotificationDto create(NotificationDto notification) {
+        notification.setId(UUID.randomUUID());
+        notification.setCreatedDate(LocalDateTime.now());
+        Notification saved = notificationRepository.save(mapper.map(notification, Notification.class));
         return mapper.map(saved, NotificationDto.class);
     }
 
     @Override
     public NotificationDto getById(UUID id) {
         Notification notification = notificationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Notification not found with id: " + id));
+                .orElseThrow(() -> new UserTaskReminderException(ErrorCode.NOTIFICATION_NOT_FOUND, id));
         return mapper.map(notification, NotificationDto.class);
     }
 
@@ -50,13 +49,14 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public NotificationDto update(UUID id, NotificationDto dto) {
-        Notification existingNotification = notificationRepository.findById(id).orElseThrow();
+    public NotificationDto update(UUID id, NotificationDto notification) {
+        Notification existingNotification = notificationRepository.findById(id)
+                .orElseThrow(() -> new UserTaskReminderException(ErrorCode.NOTIFICATION_NOT_FOUND, id));
 
-        for (Field field : dto.getClass().getDeclaredFields()) {
+        for (Field field : notification.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             try {
-                Object value = field.get(dto);
+                Object value = field.get(notification);
                 if (Objects.nonNull(value)) {
                     Field entityField = existingNotification.getClass().getDeclaredField(field.getName());
                     entityField.setAccessible(true);
@@ -73,15 +73,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void delete(UUID id) {
-        Notification notification = notificationRepository.findById(id).orElseThrow();
+        Notification notification = notificationRepository.findById(id)
+                .orElseThrow(() -> new UserTaskReminderException(ErrorCode.NOTIFICATION_NOT_FOUND, id));
         notificationRepository.delete(notification);
     }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public class ResourceNotFoundException extends RuntimeException {
-        public ResourceNotFoundException(String message) {
-            super(message);
-        }
-    }
-
 }

@@ -21,14 +21,14 @@ public class User {
     private String lastName;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
-    @ElementCollection
     private List<String> roles;
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL)
     private List<Task> tasks;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) //FYI orphanRemoval is use for ,If we  remove an item from the parent’s collection,
-                                                                                    // and the child has no other reference,
-                                                                                    // it will be automatically deleted from the database.
+    //FYI orphanRemoval is use for ,If we  remove an item from the parent’s collection,
+    // and the child has no other reference,
+    // it will be automatically deleted from the database.
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notifications;
 }

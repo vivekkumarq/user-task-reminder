@@ -2,6 +2,8 @@ package com.neko.serviceImpl;
 
 import com.neko.dto.UserDto;
 import com.neko.entity.User;
+import com.neko.exceptions.ErrorCode.ErrorCode;
+import com.neko.exceptions.UserTaskReminderException;
 import com.neko.repositories.UserRepository;
 import com.neko.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -34,7 +36,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto get(UUID id) {
-        return mapper.map(userRepository.findById(id).get(), UserDto.class);
+        return mapper.map(userRepository.findById(id)
+                .orElseThrow(() -> new UserTaskReminderException(ErrorCode.USER_NOT_FOUND, id)), UserDto.class);
     }
 
     @Override
@@ -46,7 +49,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UUID id, UserDto user) {
-        User existingUser = userRepository.findById(id).get();
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new UserTaskReminderException(ErrorCode.USER_NOT_FOUND, id));
 
         for(Field field: user.getClass().getDeclaredFields()) {
             field.setAccessible(true);
@@ -66,7 +70,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(UUID id) {
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserTaskReminderException(ErrorCode.USER_NOT_FOUND, id));
         userRepository.delete(user);
     }
 }
